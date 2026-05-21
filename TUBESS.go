@@ -76,7 +76,7 @@ func menggantiBarang() {
 
 func deleteItem() {
 	var index int
-	fmt.Print("Masukkan nomor barang yang ingin dihapus: ")
+	fmt.Print("Masukkan nomor barang yang ingin dihapus: ") //nomor barang dimulai dari 1
 	fmt.Scanln(&index)
 	if index >= 1 && index <= jumlahBarang {
 		for i := index - 1; i < jumlahBarang-1; i++ {
