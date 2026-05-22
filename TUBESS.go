@@ -3,11 +3,11 @@ package main
 import "fmt"
 
 // kamus global
-const Nmax int = 1000
+const NMAX int = 1000
 
 // array untuk menyimpan data barang sembako
-var sembako [Nmax]string
-var kategoriBarang [Nmax]string
+var namaBarang [NMAX]string
+var kategoriBarang [NMAX]string
 var jumlahBarang int
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 // fungsi untuk menampilkan menu
 func menu() {
 	fmt.Println("Menu:")
-	fmt.Println("1. Input data barang masuk")
+	fmt.Println("1. Masukkan nama barang ")
 	fmt.Println("2. Kategori barang")
 	fmt.Println("3. Ubah data barang")
 	fmt.Println("4. Hapus data barang")
@@ -46,27 +46,32 @@ func menu() {
 }
 
 // pencatatan data barang masuk
+// pencatatan data barang masuk
 func input() {
 	for {
-		if jumlahBarang >= Nmax {
+		if jumlahBarang >= NMAX {
 			fmt.Println("Data penuh, tidak bisa menambah barang lagi.")
 			break
 		}
-		fmt.Printf("Masukkan nama barang ke-%d (atau ketik 'stop' untuk berhenti): ", jumlahBarang+1)
+		fmt.Printf("Masukkan nama barang atau kembali ke menu: ")
 		var nama string
 		fmt.Scanln(&nama)
-		if nama == "stop" {
-			break
+		if nama == "kembali ke menu" {
+			menu() // langsung kembali ke menu utama
+			return
 		}
-		fmt.Printf("Masukkan kategori barang ke-%d: ", jumlahBarang+1)
+
+		fmt.Print("Masukkan kategori: ")
 		fmt.Scanln(&kategoriBarang[jumlahBarang])
-		sembako[jumlahBarang] = nama
+		namaBarang[jumlahBarang] = nama
 		jumlahBarang++
+
 		var kembali string
-		fmt.Print("Ketik 'menu' untuk kembali ke menu utama, atau Enter untuk lanjut input: ")
+		fmt.Print("kembali ke menu atau Enter untuk lanjut input: ")
 		fmt.Scanln(&kembali)
-		if kembali == "menu" {
-			return // keluar dari fungsi inputBarang, otomatis balik ke menu()
+		if kembali == "kembali ke menu" {
+			menu()
+			return
 		}
 	}
 }
@@ -83,7 +88,7 @@ func category() {
 func menggantiBarang() {
 	for i := 0; i < jumlahBarang; i++ {
 		fmt.Printf("Masukkan nama barang baru untuk barang ke-%d: ", i+1)
-		fmt.Scanln(&sembako[i])
+		fmt.Scanln(&namaBarang[i])
 	}
 }
 
@@ -94,7 +99,7 @@ func deleteItem() {
 	fmt.Scanln(&index)
 	if index >= 1 && index <= jumlahBarang {
 		for i := index - 1; i < jumlahBarang-1; i++ {
-			sembako[i] = sembako[i+1]
+			namaBarang[i] = namaBarang[i+1]
 			kategoriBarang[i] = kategoriBarang[i+1]
 		}
 		jumlahBarang--
@@ -108,7 +113,7 @@ func deleteItem() {
 func logTransaction() {
 	fmt.Println("=== Log Transaksi Barang ===")
 	for i := 0; i < jumlahBarang; i++ {
-		fmt.Printf("Barang ke-%d: %s\n", i+1, sembako[i])
+		fmt.Printf("Barang ke-%d: %s\n", i+1, namaBarang[i])
 	}
 	if jumlahBarang == 0 {
 		fmt.Println("Belum ada transaksi barang.")
@@ -122,8 +127,8 @@ func searchData() {
 	fmt.Scanln(&keyword)
 	found := false
 	for i := 0; i < jumlahBarang; i++ {
-		if sembako[i] == keyword {
-			fmt.Printf("Barang ditemukan di posisi ke-%d: %s\n", i+1, sembako[i])
+		if namaBarang[i] == keyword {
+			fmt.Printf("Barang ditemukan di posisi ke-%d: %s\n", i+1, namaBarang[i])
 			found = true
 		}
 	}
@@ -141,13 +146,13 @@ func displayData() {
 	// bubble sort
 	for i := 0; i < jumlahBarang-1; i++ {
 		for j := 0; j < jumlahBarang-i-1; j++ {
-			if sembako[j] > sembako[j+1] {
-				sembako[j], sembako[j+1] = sembako[j+1], sembako[j]
+			if namaBarang[j] > namaBarang[j+1] {
+				namaBarang[j], namaBarang[j+1] = namaBarang[j+1], namaBarang[j]
 			}
 		}
 	}
 	fmt.Println("=== Data Barang (Terurut) ===")
 	for i := 0; i < jumlahBarang; i++ {
-		fmt.Printf("%d. %s\n", i+1, sembako[i])
+		fmt.Printf("%d. %s\n", i+1, namaBarang[i])
 	}
 }
