@@ -37,8 +37,8 @@ func menu(Menu *string) {
 // Spesifikasi Fungsi: Menampilkan sub-menu untuk melihat data
 func showData(show *string) {
 	fmt.Println("----------SHOW DATA SEMBAKO-----------")
-	fmt.Println("1. Show All Data (Urutan Input)")
-	fmt.Println("2. Show All Data (Urutan Terbalik)")
+	fmt.Println("1. Show All Data by Urutan Input")
+	fmt.Println("2. Show All Data by Urutan Terbalik")
 	fmt.Println("3. Show Data by Keterangan (Masuk/Keluar)")
 	fmt.Println("4. Show Data by Stock")
 	fmt.Println("5. Show Data by Tanggal")
@@ -101,7 +101,7 @@ func InputData() {
 		}
 
 		fmt.Print("Tanggal (contoh 10 5 2023): ")
-		fmt.Scan(&b.tanggal, &b.bulan, &b.tahun)
+		fmt.Scanln(&b.tanggal, &b.bulan, &b.tahun)
 
 		fmt.Print("Stok: ")
 		fmt.Scanln(&b.stok)
@@ -130,7 +130,7 @@ func showAllData() {
 	}
 
 	fmt.Println("====================================")
-	fmt.Println("Menampilkan Semua Data (Urutan Input):")
+	fmt.Println("Menampilkan Semua Data :")
 	fmt.Println("====================================")
 
 	for i := 0; i < jumlahBarang; i++ {
@@ -150,7 +150,7 @@ func showAllDataDesc() {
 	}
 
 	fmt.Println("====================================")
-	fmt.Println("Menampilkan Semua Data (Urutan Terbalik):")
+	fmt.Println("Menampilkan Semua Data :")
 	fmt.Println("====================================")
 	k := 1
 	for i := jumlahBarang - 1; i >= 0; i-- {
@@ -164,7 +164,8 @@ func showAllDataDesc() {
 }
 
 func checkdate(tanggal, bulan, tahun int) bool {
-	if bulan > 12 || tanggal > 31 {
+	// Validasi dasar batas bulan dan tanggal ditambahkan di sini
+	if bulan < 1 || bulan > 12 || tanggal < 1 || tanggal > 31 {
 		return false
 	} else if bulan == 4 || bulan == 6 || bulan == 9 || bulan == 11 {
 		if tanggal > 30 {
@@ -443,7 +444,7 @@ func showStok() {
 
 	fmt.Println("====================================")
 	fmt.Println("    <> Menampilkan Semua Data <>    ")
-	
+
 	hasil := sortBesar(dataBarang, jumlahBarang)
 	switch pilihan {
 	case 1:
@@ -658,20 +659,23 @@ func stokKritis() {
 func updateData() ([NMAX]Barang, int) {
 	var stokBarang [NMAX]Barang
 	var jumlahStok int = 0
-	var i, j, k int
+	var i, j, k int // Menggunakan kembali variabel k sebagai penanda
 
 	for i = 0; i < jumlahBarang; i++ {
-		k = 0
+		k = 0 // k=0 berarti barang belum ditemukan
 		for j = 0; j < jumlahStok; j++ {
-			if dataBarang[i].nama == stokBarang[j].nama {
+			// Syarat diperketat: Nama DAN Kategori harus sama
+			if dataBarang[i].nama == stokBarang[j].nama && dataBarang[i].kategori == stokBarang[j].kategori {
 				if dataBarang[i].keterangan == "Masuk" {
 					stokBarang[j].stok += dataBarang[i].stok
 				} else {
 					stokBarang[j].stok -= dataBarang[i].stok
 				}
-				k = 1
+				k = 1 // Tandai bahwa barang sudah ditemukan (tanpa perlu di-break)
 			}
 		}
+
+		// Jika setelah dicek semua (k == 0), tambahkan data baru ke akumulasi
 		if k == 0 {
 			stokBarang[jumlahStok].nama = dataBarang[i].nama
 			stokBarang[jumlahStok].kategori = dataBarang[i].kategori
@@ -693,7 +697,7 @@ func showAkumulasiStok() {
 		fmt.Println("Data kosong.")
 		return
 	}
-	
+
 	hasilStok, jum := updateData()
 
 	fmt.Println("==================================================")
