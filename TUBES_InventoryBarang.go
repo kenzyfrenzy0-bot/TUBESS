@@ -14,35 +14,39 @@ var dataBarang [NMAX]Barang
 var jumlahBarang int = 0
 
 func menu(Menu *string) {
-	fmt.Println("----------MENU-----------")
-	fmt.Println("1. Show Data Sembako")
-	fmt.Println("2. Edit Data Sembako")
-	fmt.Println("3. Exit")
-	fmt.Println("---------------------------")
-	fmt.Print("Pilih Menu: ")
-	*Menu = "0"
-	for *Menu != "1" && *Menu != "2" && *Menu != "3" {
-		fmt.Print("Pilih Menu: ")
-		fmt.Scanln(Menu)
-	}
-	fmt.Println()
+    fmt.Println("----------MENU-----------")
+    fmt.Println("1. Show Data Sembako")
+    fmt.Println("2. Edit Data Sembako")
+    fmt.Println("3. Exit")
+    fmt.Println("4. Search Data")
+    fmt.Println("5. Laporan Masuk/Keluar per Kategori")
+    fmt.Println("---------------------------")
+    fmt.Print("Pilih Menu: ")
+    *Menu = "0"
+    for *Menu != "1" && *Menu != "2" && *Menu != "3" && *Menu != "4" && *Menu != "5" {
+        fmt.Print("Pilih Menu: ")
+        fmt.Scanln(Menu)
+    }
+    fmt.Println()
 }
 
+
 func showData(show *string) {
-	fmt.Println("----------SHOW DATA SEMBAKO-----------")
-	fmt.Println("1. Show All Data")
-	fmt.Println("2. Show Data by Category")
-	fmt.Println("3. Show Data by Stock")
-	fmt.Println("4. Back to Main Menu")
-	fmt.Println("-------------------------------------")
-	fmt.Print("Pilih Menu: ")
-	*show = "0"
-	for *show != "1" && *show != "2" && *show != "3" && *show != "4" {
-		fmt.Print("Pilih Menu: ")
-		fmt.Scanln(show)
-	}
-	fmt.Println()
+    fmt.Println("----------SHOW DATA SEMBAKO-----------")
+    fmt.Println("1. Show All Data")
+    fmt.Println("2. Show Data by Keterangan (Masuk/Keluar)")
+    fmt.Println("3. Show Data by Stock")
+    fmt.Println("4. Back to Main Menu")
+    fmt.Println("-------------------------------------")
+    fmt.Print("Pilih Menu: ")
+    *show = "0"
+    for *show != "1" && *show != "2" && *show != "3" && *show != "4" {
+        fmt.Print("Pilih Menu: ")
+        fmt.Scanln(show)
+    }
+    fmt.Println()
 }
+
 
 func editData(edit *string) {
 	fmt.Println("----------EDIT DATA SEMBAKO-----------")
@@ -154,13 +158,14 @@ func checkdate(tanggal, bulan, tahun int) bool {
 }
 
 func checkkabisat(tahun int) bool {
-	if tahun%4 == 0 {
-		return true
-	} else if tahun%400 != 0 && tahun%100 != 0 && tahun%4 == 0 {
-		return true
-	} else {
-		return false
-	}
+    if tahun%400 == 0 {
+        return true
+    } else if tahun%100 == 0 {
+        return false
+    } else if tahun%4 == 0 {
+        return true
+    }
+    return false
 }
 
 func updateDataByIndex() {
@@ -284,6 +289,48 @@ func updateDataByIndex() {
 			fmt.Print("Pilihan: ")
 			fmt.Scanln(&lanjut)
 		}
+	}
+}
+
+func editDataByCategory() {
+	var kategori string
+	fmt.Print("Masukkan kategori yang ingin diubah: ")
+	fmt.Scanln(&kategori)
+
+	ada := false
+	for i := 0; i < jumlahBarang; i++ {
+		if dataBarang[i].kategori == kategori {
+			ada = true
+			fmt.Printf("Barang %s dengan kategori %s ditemukan.\n", dataBarang[i].nama, dataBarang[i].kategori)
+			fmt.Print("Kategori baru: ")
+			fmt.Scanln(&dataBarang[i].kategori)
+			fmt.Println("Kategori berhasil diubah.")
+		}
+	}
+
+	if !ada {
+		fmt.Println("Tidak ada data dengan kategori tersebut.")
+	}
+}
+
+func editDataByStock() {
+	var batas int
+	fmt.Print("Masukkan stok yang ingin diubah (cari barang dengan stok tertentu): ")
+	fmt.Scanln(&batas)
+
+	ada := false
+	for i := 0; i < jumlahBarang; i++ {
+		if dataBarang[i].stok == batas {
+			ada = true
+			fmt.Printf("Barang %s dengan stok %d ditemukan.\n", dataBarang[i].nama, dataBarang[i].stok)
+			fmt.Print("Stok baru: ")
+			fmt.Scanln(&dataBarang[i].stok)
+			fmt.Println("Stok berhasil diubah.")
+		}
+	}
+
+	if !ada {
+		fmt.Println("Tidak ada barang dengan stok tersebut.")
 	}
 }
 
@@ -584,7 +631,7 @@ func showAllDataDesc() {
 		fmt.Printf("Data tidak ditemukan, silahkan isi data terlebih dahulu\n\n")
 	} else {
 		fmt.Println("====================================")
-		fmt.Println("Menampilkan Semua Data (Descending): ")
+		fmt.Println("Menampilkan Semua Data: ")
 		fmt.Println("====================================")
 		for i := jumlahBarang - 1; i >= 0; i-- {
 			if k < 10 {
@@ -686,36 +733,43 @@ func main() {
 	fmt.Println()
 
 	for {
-		menu(&pmenu)
+    menu(&pmenu)
 
-		switch pmenu {
-		case "3":
-			fmt.Println("Keluar dari program...")
-			return 
-		case "1":
-			showData(&show)
-			switch show {
-			case "1":
-				showAllData()
-			case "2":
-				tampket()
-			case "3":
-				showStok()
-			case "4":
-				// kembali ke menu utama
-			}
-		case "2":
-			editData(&edit)
-			switch edit {
-			case "1":
-				updateDataByIndex()
-			case "2":
-				// nanti bisa ditambah fungsi editDataByCategory()
-			case "3":
-				// nanti bisa ditambah fungsi editDataByStock()
-			case "4":
-				// kembali ke menu utama
-			}
-		}
-	}
+    switch pmenu {
+    case "3":
+        fmt.Println("Keluar dari program...")
+        return
+
+    case "1":
+        showData(&show)
+        switch show {
+        case "1":
+            showAllData()
+        case "2":
+            tampket()
+        case "3":
+            showStok()
+        case "4":
+            // kembali ke menu utama
+        }
+
+    case "2":
+        editData(&edit)
+        switch edit {
+        case "1":
+            updateDataByIndex()
+        case "2":
+            editDataByCategory()
+        case "3":
+            editDataByStock()
+        case "4":
+            // kembali ke menu utama
+        }
+
+    case "4":
+        tampcus()
+
+    case "5":
+        laporanMasukKeluarKategori()
+    }
 }
