@@ -100,7 +100,7 @@ func InputData() {
 			fmt.Scanln(&b.keterangan)
 		}
 
-		fmt.Print("Tanggal (contoh 10 5 2023): ")
+		fmt.Print("Tanggal || dd mm yyyy: ")
 		fmt.Scanln(&b.tanggal, &b.bulan, &b.tahun)
 
 		fmt.Print("Stok: ")
@@ -714,11 +714,11 @@ func showAkumulasiStok() {
 func main() {
 	var pmenu, show, edit string
 
-	fmt.Println("===========================================")
-	fmt.Println("======     Algoritma Pemrograman     ======")
-	fmt.Println("======          Tugas Besar          ======")
-	fmt.Println("======    1301223020 & 1301220413    ======")
-	fmt.Println("===========================================")
+	fmt.Println("===============================================")
+	fmt.Println("========     Algoritma Pemrograman     ========")
+	fmt.Println("========          Tugas Besar          ========")
+	fmt.Println("========  103032500118 & 103032500026  ========")
+	fmt.Println("===============================================")
 	fmt.Println("1. Continue\n2. Exit")
 
 	pilihan := "0"
