@@ -688,10 +688,11 @@ func main() {
 	for {
 		menu(&pmenu)
 
-		if pmenu == "3" {
+		switch pmenu {
+		case "3":
 			fmt.Println("Keluar dari program...")
-			break
-		} else if pmenu == "1" {
+			return 
+		case "1":
 			showData(&show)
 			switch show {
 			case "1":
@@ -699,19 +700,21 @@ func main() {
 			case "2":
 				tampket()
 			case "3":
-				tampcus()
-			case "4":
 				showStok()
+			case "4":
+				// kembali ke menu utama
 			}
-		} else if pmenu == "2" {
+		case "2":
 			editData(&edit)
 			switch edit {
 			case "1":
 				updateDataByIndex()
 			case "2":
-				laporanMasukKeluarKategori()
+				// nanti bisa ditambah fungsi editDataByCategory()
 			case "3":
-				hapusData()
+				// nanti bisa ditambah fungsi editDataByStock()
+			case "4":
+				// kembali ke menu utama
 			}
 		}
 	}
