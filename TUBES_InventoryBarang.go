@@ -772,4 +772,5 @@ func main() {
     case "5":
         laporanMasukKeluarKategori()
     }
+    }
 }
