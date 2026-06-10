@@ -38,20 +38,19 @@ func menu(Menu *string) {
 func showData(show *string) {
 	fmt.Println("----------SHOW DATA SEMBAKO-----------")
 	fmt.Println("1. Show All Data by Urutan Input")
-	fmt.Println("2. Show All Data by Urutan Terbalik")
-	fmt.Println("3. Show Data by Keterangan (Masuk/Keluar)")
-	fmt.Println("4. Show Data by Stock")
-	fmt.Println("5. Show Data by Tanggal")
-	fmt.Println("6. Show Barang Stok Kritis")
-	fmt.Println("7. Laporan Akumulasi Stok Akhir")
-	fmt.Println("8. Back to Main Menu")
+	fmt.Println("2. Show Data by Keterangan (Masuk/Keluar)")
+	fmt.Println("3. Show Data by Stock")
+	fmt.Println("4. Show Data by Tanggal")
+	fmt.Println("5. Show Barang Stok Kritis")
+	fmt.Println("6. Laporan Akumulasi Stok Akhir")
+	fmt.Println("7. Back to Main Menu")
 	fmt.Println("--------------------------------------")
 	fmt.Print("Pilih Menu: ")
 	*show = "0"
-	for *show < "1" || *show > "8" {
+	for *show < "1" || *show > "7" {
 		fmt.Scanln(show)
-		if *show < "1" || *show > "8" {
-			fmt.Print("Pilihan tidak valid. Pilih Menu (1-8): ")
+		if *show < "1" || *show > "7" {
+			fmt.Print("Pilihan tidak valid. Pilih Menu (1-7): ")
 		}
 	}
 	fmt.Println()
@@ -155,27 +154,6 @@ func showAllData() {
 			i+1, dataBarang[i].nama, dataBarang[i].kategori, dataBarang[i].keterangan,
 			dataBarang[i].tanggal, dataBarang[i].bulan, dataBarang[i].tahun, dataBarang[i].stok)
 		fmt.Println("====================================")
-	}
-	fmt.Println()
-}
-
-// Spesifikasi Fungsi: Menampilkan semua data dengan urutan terbalik (dari data terbaru yang diinput ke terlama)
-func showAllDataDesc() {
-	if jumlahBarang == 0 {
-		fmt.Println("Data tidak ditemukan, silahkan isi data terlebih dahulu.")
-		return
-	}
-
-	fmt.Println("====================================")
-	fmt.Println("Menampilkan Semua Data :")
-	fmt.Println("====================================")
-	k := 1
-	for i := jumlahBarang - 1; i >= 0; i-- {
-		fmt.Printf("%d | Nama: %s\n  | Kategori: %s\n  | Keterangan: %s\n  | Tanggal: %d/%d/%d\n  | Stok: %d\n",
-			k, dataBarang[i].nama, dataBarang[i].kategori, dataBarang[i].keterangan,
-			dataBarang[i].tanggal, dataBarang[i].bulan, dataBarang[i].tahun, dataBarang[i].stok)
-		fmt.Println("====================================")
-		k++
 	}
 	fmt.Println()
 }
@@ -767,19 +745,18 @@ func main() {
 			switch show {
 			case "1":
 				showAllData()
+
 			case "2":
-				showAllDataDesc()
-			case "3":
 				tampket()
-			case "4":
+			case "3":
 				showStok()
-			case "5":
+			case "4":
 				showTanggal()
-			case "6":
+			case "5":
 				stokKritis()
-			case "7":
+			case "6":
 				showAkumulasiStok()
-			case "8":
+			case "7":
 				// kembali ke menu utama
 			}
 
