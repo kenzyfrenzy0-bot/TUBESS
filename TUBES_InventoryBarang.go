@@ -110,9 +110,9 @@ func InputData() {
 		fmt.Print("Tanggal || dd mm yyyy: ")
 		b.tanggal, b.bulan, b.tahun = 0, 0, 0 // Inisialisasi awal
 		fmt.Scanln(&b.tanggal, &b.bulan, &b.tahun)
-		
+
 		for !checkdate(b.tanggal, b.bulan, b.tahun) {
-			fmt.Println("Format salah atau data kurang! Pastikan memasukkan dd mm yyyy.")
+			fmt.Println("Format salah atau data kurang!/nPastikan memasukkan || dd mm yyyy.")
 			fmt.Print("Tanggal || dd mm yyyy: ")
 			b.tanggal, b.bulan, b.tahun = 0, 0, 0 // Reset sebelum scan ulang
 			fmt.Scanln(&b.tanggal, &b.bulan, &b.tahun)
