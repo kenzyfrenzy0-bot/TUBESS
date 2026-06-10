@@ -89,10 +89,17 @@ func InputData() {
 
 		fmt.Print("Nama Barang: ")
 		fmt.Scanln(&b.nama)
+		for b.nama == "" {
+			fmt.Print("Nama tidak boleh kosong!\nNama Barang: ")
+			fmt.Scanln(&b.nama)
+		}
 
 		fmt.Print("Kategori Barang: ")
 		fmt.Scanln(&b.kategori)
-
+		for b.kategori == "" {
+			fmt.Print("Kategori tidak boleh kosong!\nKategori Barang: ")
+			fmt.Scanln(&b.kategori)
+		}
 		fmt.Print("Keterangan (Masuk/Keluar): ")
 		fmt.Scanln(&b.keterangan)
 		for b.keterangan != "Masuk" && b.keterangan != "Keluar" {
@@ -101,11 +108,21 @@ func InputData() {
 		}
 
 		fmt.Print("Tanggal || dd mm yyyy: ")
+		b.tanggal, b.bulan, b.tahun = 0, 0, 0 // Inisialisasi awal
 		fmt.Scanln(&b.tanggal, &b.bulan, &b.tahun)
-
+		
+		for !checkdate(b.tanggal, b.bulan, b.tahun) {
+			fmt.Println("Format salah atau data kurang! Pastikan memasukkan dd mm yyyy.")
+			fmt.Print("Tanggal || dd mm yyyy: ")
+			b.tanggal, b.bulan, b.tahun = 0, 0, 0 // Reset sebelum scan ulang
+			fmt.Scanln(&b.tanggal, &b.bulan, &b.tahun)
+		}
 		fmt.Print("Stok: ")
 		fmt.Scanln(&b.stok)
-
+		for b.stok < 0 {
+			fmt.Print("Stok tidak boleh negatif!\nStok: ")
+			fmt.Scanln(&b.stok)
+		}
 		dataBarang[jumlahBarang] = b
 		jumlahBarang++
 
@@ -164,8 +181,8 @@ func showAllDataDesc() {
 }
 
 func checkdate(tanggal, bulan, tahun int) bool {
-	// Validasi dasar batas bulan dan tanggal ditambahkan di sini
-	if bulan < 1 || bulan > 12 || tanggal < 1 || tanggal > 31 {
+	// Tambahkan validasi tahun harus > 0
+	if tahun <= 0 || bulan < 1 || bulan > 12 || tanggal < 1 || tanggal > 31 {
 		return false
 	} else if bulan == 4 || bulan == 6 || bulan == 9 || bulan == 11 {
 		if tanggal > 30 {
@@ -266,12 +283,12 @@ func updateDataByIndex() {
 
 			case 4:
 				prev := fmt.Sprintf("%d/%d/%d", dataBarang[idxn-1].tanggal, dataBarang[idxn-1].bulan, dataBarang[idxn-1].tahun)
-				fmt.Print("Tanggal Baru (contoh 10 5 2023): ")
-				fmt.Scan(&dataBarang[idxn-1].tanggal, &dataBarang[idxn-1].bulan, &dataBarang[idxn-1].tahun)
+				fmt.Print("Tanggal Baru || dd mm yyyy: ")
+				fmt.Scanln(&dataBarang[idxn-1].tanggal, &dataBarang[idxn-1].bulan, &dataBarang[idxn-1].tahun)
 				for !checkdate(dataBarang[idxn-1].tanggal, dataBarang[idxn-1].bulan, dataBarang[idxn-1].tahun) {
 					fmt.Println("Tanggal tidak valid, tolong masukkan tanggal dengan benar!")
-					fmt.Print("Tanggal (contoh 10 5 2023): ")
-					fmt.Scan(&dataBarang[idxn-1].tanggal, &dataBarang[idxn-1].bulan, &dataBarang[idxn-1].tahun)
+					fmt.Print("Tanggal || dd mm yyyy: ")
+					fmt.Scanln(&dataBarang[idxn-1].tanggal, &dataBarang[idxn-1].bulan, &dataBarang[idxn-1].tahun)
 				}
 				fmt.Printf("Tanggal barang %s diganti dari %s menjadi %d/%d/%d\n",
 					dataBarang[idxn-1].nama, prev,
